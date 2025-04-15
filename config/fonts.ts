@@ -1,11 +1,17 @@
-import { Fira_Code as FontMono, Inter as FontSans } from "next/font/google";
+import { Poppins, Poetsen_One } from "next/font/google";
 
-export const fontSans = FontSans({
+export const poppins = Poppins({
+  weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
-  variable: "--font-sans",
+  display: "swap",
+  fallback: ["Arial", "sans-serif"],
+  variable: "--font-poppins",
 });
 
-export const fontMono = FontMono({
+export const poetsen_one = Poetsen_One({
+  weight: "400",
   subsets: ["latin"],
-  variable: "--font-mono",
+  display: "swap",
+  fallback: ["Arial", "sans-serif"],
+  variable: "--font-poetsen-one",
 });

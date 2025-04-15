@@ -1,24 +1,24 @@
-import React from 'react'
-import HeroSection from './index/herosection/herosection'
-import ServicesSection from './index/service/servicesection'
-import AboutSection from './index/aboutsection/aboutsection'
-import RecentProject from './index/recentsproject/recentproject'
-import OurServices from './index/service/services'
-import Testimonials from './index/testimonial/testimonials'
-import ContactPage from './contact/page'
+import React from "react";
+import Hero from "@/components/user/home/hero/hero";
+import About from "@/components/user/home/about";
+import Services from "@/components/user/home/services/services";
+import Solutions from "@/components/user/home/solutions/solutions";
+import Testimonials from "@/components/user/home/testimonials/testimonials";
+import Contact from "@/components/user/contact/contact";
 
-
-const Homepage = () => {
+const Page = () => {
   return (
     <>
-      <HeroSection/>
-      <AboutSection/>
-      <OurServices/>
-      <RecentProject/>
-      <Testimonials/>
-      <ContactPage/>
+      <Hero />
+      <About />
+      <Services />
+      <Solutions />
+      <Testimonials />
+      <section className="bg-gray-100">
+        <Contact />
+      </section>
     </>
-  )
-}
+  );
+};
 
-export default Homepage
+export default Page;

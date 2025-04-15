@@ -1,57 +1,39 @@
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
-import { siteConfig } from "@/config/site";
-import { Navbar } from "@/components/navbar";
-import { Poppins } from "next/font/google";
-import Footer from "@/components/footer/footer";
+import Providers from "./providers";
+import NavBar from "@/components/user/layout/navbar";
+import Footer from "@/components/user/layout/footer/footer";
+import { poppins } from "@/config/fonts";
+import { Toaster } from "react-hot-toast";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    default: "Infinitech Advertising Corporation",
+    template: `%s - "Infinitech Advertising Corporation"`,
   },
-  description: siteConfig.description,
+  description:
+    "Craft stunning and high-performing websites effortlessly, no matter your design expertise.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/images/favicon.ico",
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-};
-
-
-const poppins = Poppins({
-  weight: ["100", "300", "400", "700", "900"],
-  subsets: ["latin"],
-  display: "swap",
-  fallback: ["Arial", "sans-serif"],
-  variable: "--font-poppins",
-});
-
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html suppressHydrationWarning lang="en">
+    <html lang="en">
       <head />
-      <body
-        className={`min-h-screen bg-background font-sans antialiased ${poppins.className}`}>
-        <div className="relative flex flex-col">
-          <Navbar />
-          <main>
-            {children}
-          </main>
-          <Footer/>
-        </div>
+      <body className={`antialiased ${poppins.className}`}>
+        <Providers>
+          <Toaster position="top-right" />
 
+          <div className="flex flex-col">
+            <NavBar />
+            <main>{children}</main>
+            <Footer />
+          </div>
+        </Providers>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
