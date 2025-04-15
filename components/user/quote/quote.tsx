@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { poetsen_one } from "@/config/fonts";
-import { Card, CardBody, Checkbox, Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Link } from "@heroui/react";
+import { Card, CardBody, Checkbox, Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Link, Divider } from "@heroui/react";
 import { capitalize, formatNumber } from "@/utils/formatters";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -176,7 +176,7 @@ const Quote = () => {
                       </span>
                     </div>
 
-                    <Table isStriped>
+                    <Table>
                       <TableHeader>
                         <TableColumn>
                           Service
@@ -190,7 +190,7 @@ const Quote = () => {
                       </TableHeader>
                       <TableBody>
                         {services.map((service, index) => (
-                          <TableRow key={index}>
+                          <TableRow className="border-b-2" key={index}>
                             <TableCell>
                               <div className="flex justify-start items-center">
                                 <Checkbox
