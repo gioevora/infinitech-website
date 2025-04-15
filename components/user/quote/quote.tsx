@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { poetsen_one } from "@/config/fonts";
-import { Card, CardBody, Checkbox, Button } from "@heroui/react";
+import { Card, CardBody, Checkbox, Button, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, LinkIcon, Link } from "@heroui/react";
 import { capitalize, formatNumber } from "@/utils/formatters";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { sendQuotation } from "@/actions/user";
 import { plans } from "@/data/plans";
 import { Service } from "@/types/user";
+import { LuCrown, LuGem, LuMedal, LuRocket, LuStar } from "react-icons/lu";
 
 const Quote = () => {
   const quotationRef = useRef<HTMLDivElement>(null);
@@ -138,96 +139,95 @@ const Quote = () => {
           </div>
 
           <div>
-            <Card className="p-4">
-              <CardBody>
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-center">
+                <div className="flex flex-wrap justify-center gap-4">
+                  {Object.keys(plans).map((name) => (
+                    <Link  key={name} onPress={() => setPlan(name)}>
+                      <Card
+                        className={`py-4 px-12 border cursor-pointer transition-all duration-200 ${plan === name ? "border-blue-500 ring-2 ring-blue-300" : "shadow-none"
+                          }`}
+                      >
+                        <CardBody className="flex flex-col items-center justify-center gap-2">
+                          <div className="text-gray-500">
+                            {name === "basic" && <LuStar className="w-5 h-5" />}
+                            {name === "standard" && <LuMedal className="w-5 h-5" />}
+                            {name === "advanced" && <LuRocket className="w-5 h-5" />}
+                            {name === "premium" && <LuCrown className="w-5 h-5" />}
+                            {name === "vip" && <LuGem className="w-5 h-5" />}
+                          </div>
+                          <div className={`${name === "vip" ? "uppercase" : "capitalize"} font-semibold`}>
+                            {name}
+                          </div>
+                        </CardBody>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {plan && (
                 <div className="flex flex-col gap-4">
-                  <div className="flex justify-center">
-                    <div className="flex flex-wrap justify-center gap-4">
-                      {Object.keys(plans).map((name) => (
-                        <Card key={name} className="py-4 px-12">
-                          <CardBody className="flex justify-center">
-                            <Checkbox
-                              className={`w-full ${name == "vip" ? "uppercase" : "capitalize"}`}
-                              value={name}
-                              isSelected={plan == name}
-                              onChange={(e) => setPlan(e.target.value)}
-                            >
-                              {name}
-                            </Checkbox>
-                          </CardBody>
-                        </Card>
-                      ))}
+                  <div className="mx-4" ref={quotationRef}>
+                    <div className="flex justify-end items-center gap-2 mb-1">
+                      <h1 className="text-lg font-bold">Total:</h1>
+                      <span className="text-lg font-semibold">
+                        ₱{formatNumber(total)}
+                      </span>
                     </div>
+
+                    <Table isStriped>
+                      <TableHeader>
+                        <TableColumn>
+                          Service
+                        </TableColumn>
+                        <TableColumn>
+                          Description
+                        </TableColumn>
+                        <TableColumn>
+                          Price
+                        </TableColumn>
+                      </TableHeader>
+                      <TableBody>
+                        {services.map((service, index) => (
+                          <TableRow key={index}>
+                            <TableCell>
+                              <div className="flex justify-start items-center">
+                                <Checkbox
+                                  className="w-full"
+                                  value={service.name}
+                                  isSelected={service.isSelected}
+                                  onChange={onServiceChange}
+                                >
+                                  {service.name}
+                                </Checkbox>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              {service.description}
+                            </TableCell>
+                            <TableCell>
+                              ₱{formatNumber(service.price)}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
                   </div>
 
-                  {plan && (
-                    <div className="flex flex-col gap-4">
-                      <div className="mx-4" ref={quotationRef}>
-                        <div className="flex justify-end items-center gap-2 mb-1">
-                          <h1 className="text-lg font-bold">Total:</h1>
-                          <span className="text-lg font-semibold">
-                            ₱{formatNumber(total)}
-                          </span>
-                        </div>
-
-                        <table className="table-auto w-full border-collapse border border-gray-300">
-                          <thead>
-                            <tr className="bg-gray-100">
-                              <th className="text-left py-2 px-4 border border-gray-300">
-                                Service
-                              </th>
-                              <th className="text-left py-2 px-4 border border-gray-300">
-                                Description
-                              </th>
-                              <th className="text-left py-2 px-4 border border-gray-300">
-                                Price
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {services.map((service, index) => (
-                              <tr
-                                key={index}
-                                className="border-b border-gray-300"
-                              >
-                                <td className="py-2 px-4 border border-gray-300">
-                                  <div className="flex justify-start items-center">
-                                    <Checkbox
-                                      className="w-full"
-                                      value={service.name}
-                                      isSelected={service.isSelected}
-                                      onChange={onServiceChange}
-                                    >
-                                      {service.name}
-                                    </Checkbox>
-                                  </div>
-                                </td>
-                                <td className="py-2 px-4 border border-gray-300">
-                                  {service.description}
-                                </td>
-                                <td className="py-2 px-4 border border-gray-300">
-                                  ₱{formatNumber(service.price)}
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-
-                      <div className="flex justify-end">
-                        <Button
-                          color="primary"
-                          onPress={exportToPDF}
-                          isLoading={isExporting}
-                        >
-                          Export to PDF
-                        </Button>
-                      </div>
-                    </div>
-                  )}
+                  <div className="flex justify-end">
+                    <Button
+                      color="primary"
+                      onPress={exportToPDF}
+                      isLoading={isExporting}
+                    >
+                      Export to PDF
+                    </Button>
+                  </div>
                 </div>
-              </CardBody>
-            </Card>
+              )}
+            </div>
+
           </div>
         </div>
       </section>
