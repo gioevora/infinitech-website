@@ -20,30 +20,28 @@ import { links } from "@/data/links";
 const NavBar = () => {
   const pathname = usePathname();
   const router = useRouter();
-
   const [isOpen, setIsOpen] = useState(false);
-
   const isActive = (href: string) => pathname == href;
 
   return (
     <Navbar
-      className="bg-gray-400 shadow-lg"
+      className="fixed shadow-lg"
       maxWidth="2xl"
       position="sticky"
       isMenuOpen={isOpen}
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand
-          className="gap-3 max-w-fit cursor-pointer"
+          className="max-w-fit cursor-pointer"
           onClick={() => router.push("/")}
         >
           <Logo />
           <div className="mt-2 hidden xl:flex">
-            <div className="flex flex-col">
-              <p className="font-bold text-inherit leading-3 text-2xl text-primary tracking-widest">
+            <div className="flex flex-col justify-center items-center">
+              <p className="font-bold leading-4 text-3xl text-primary">
                 INFINITECH
               </p>
-              <p className="text-xs font-semibold text-primary">
+              <p className="text-tiny font-semibold text-primary">
                 ADVERTISING CORPORATION
               </p>
             </div>
@@ -53,15 +51,15 @@ const NavBar = () => {
 
       <NavbarContent
         justify="center"
-        className="hidden lg:flex gap-8 justify-start ml-2"
+        className="hidden lg:flex justify-start ml-2"
       >
         {links.map((link) => (
           <NavbarItem
             key={link.name}
-            className={`cursor-pointer ${isActive(link.href) ? "text-primary-light font-semibold" : "text-black"}`}
-            onClick={() => router.push(link.href)}
           >
-            {link.name}
+            <Button onPress={() => router.push(link.href)} className={`cursor-pointer ${isActive(link.href) ? "text-gray-400 bg-primary font-semibold" : "text-black"}`} variant={`${isActive(link.href) ? "solid" : "light"}`}>
+              {link.name}
+            </Button>
           </NavbarItem>
         ))}
       </NavbarContent>

@@ -1,6 +1,5 @@
 import React from "react";
 import { poetsen_one } from "@/config/fonts";
-import Cards from "@/components/user/home/solutions/cards";
 import SolutionsCard from "@/components/user/home/solutions/solutionscard";
 
 const Page = () => {
